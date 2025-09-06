@@ -1,0 +1,28 @@
+USE capsule;
+
+INSERT INTO miembros_team (fecha_inclusion, es_lider, estado_miembro, id_team, id_miembro) VALUES
+('2016-03-28', False, False, 3, 14),
+('2005-08-12', True, True, 3, 24),
+('2006-01-28', True, False, 5, 13),
+('2007-08-12', True, False, 4, 3),
+('2023-10-08', False, True, 2, 24),
+('2001-09-03', True, False, 3, 4),
+('2014-08-24', False, True, 5, 24),
+('2004-04-06', False, True, 2, 7),
+('2005-04-14', False, False, 2, 15),
+('2010-04-19', True, False, 3, 12),
+('2009-04-02', True, False, 1, 19),
+('2009-06-25', False, False, 3, 1),
+('2019-01-02', True, True, 5, 15),
+('2014-05-07', False, True, 3, 16),
+('2014-10-20', True, False, 3, 11),
+('2005-11-05', False, True, 3, 5),
+('2016-12-04', False, True, 2, 7),
+('2006-07-03', False, True, 2, 20),
+('2019-04-20', False, True, 3, 6),
+('2005-09-13', False, True, 5, 3),
+('2000-04-13', True, False, 3, 16),
+('2018-12-12', False, False, 5, 7),
+('2006-05-05', True, True, 1, 23),
+('2003-12-26', True, False, 4, 22),
+('2017-06-09', True, False, 3, 16);
