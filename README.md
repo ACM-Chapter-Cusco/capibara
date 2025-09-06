@@ -42,7 +42,10 @@ export PATH=$PATH:/usr/local/go/bin
 export GOPATH=$HOME/go
 export GOPROXY=direct
 
-export DB_CONNECTION=localhost
+export MODE=dev
+
+export DB_HOST=localhost
+export DB_PORT=3306
 export DB_NAME=capsule
 export DB_USER=capsule
 export DB_PASSWORD=capsule

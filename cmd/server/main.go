@@ -5,32 +5,19 @@ import (
     "encoding/json"
     "fmt"
     "net/http"
-    "os"
 
     _ "github.com/go-sql-driver/mysql"
+    "github.com/ACM-Chapter-Cusco/capibara/config"
     "github.com/ACM-Chapter-Cusco/capibara/src/model"
     "github.com/ACM-Chapter-Cusco/capibara/src/tracer"
 )
 
 var log = tracer.Logger();
 
-func getDBConnection() (*sql.DB, error) {
-    dbUser := os.Getenv("DB_USER")
-    dbPassword := os.Getenv("DB_PASSWORD")
-    dbName := os.Getenv("DB_NAME")
-    connectionName := os.Getenv("DB_CONNECTION")
+func getDBConnection(cfg *config.Config) (*sql.DB, error) {
+    dsn := cfg.GetStringDbConnection()
 
-    if dbUser == "" || dbPassword == "" || dbName == "" || connectionName == "" {
-        return nil, fmt.Errorf("database credentials not set in environment variables")
-    }
-
-    // Use if you are running in GCP
-    dsn := fmt.Sprintf("%s:%s@unix(/cloudsql/%s)/%s", dbUser, dbPassword, connectionName, dbName)
-
-    // Use if you are running localhost
-    //dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s", dbUser, dbPassword, "localhost:3306", dbName)
-
-    db, err := sql.Open("mysql", dsn)
+    db, err := sql.Open(cfg.Database.Driver, dsn)
     if err != nil {
         return nil, err
     }
@@ -39,7 +26,7 @@ func getDBConnection() (*sql.DB, error) {
         return nil, fmt.Errorf("cannot connect to database: %v", err)
     }
 
-    log.Infof("Connected to Cloud SQL successfully!")
+    log.Infof("Connected to database successfully!")
     return db, nil
 }
 
@@ -99,7 +86,9 @@ func membersHandler(db *sql.DB) http.HandlerFunc {
 }
 
 func main() {
-    db, err := getDBConnection()
+    cfg := config.NewConfiguration()
+
+    db, err := getDBConnection(cfg)
     if err != nil {
         log.Fatal(err)
     }
@@ -107,6 +96,7 @@ func main() {
 
     http.HandleFunc("/members", membersHandler(db))
 
-    log.Infof("Starting server on :8080")
-    log.Fatal(http.ListenAndServe(":8080", nil))
+    serverHost := fmt.Sprintf(":%s", cfg.Server.Port)
+    log.Infof("Starting server on %s", serverHost)
+    log.Fatal(http.ListenAndServe(serverHost, nil))
 }
