@@ -123,27 +123,27 @@ CREATE TABLE members (
     UNIQUE KEY uk_username (username)
 ) ENGINE=InnoDB;
 
--- Table: groups
-CREATE TABLE groups (
+-- Table: circles
+CREATE TABLE circles (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     description TEXT NOT NULL,
     active BOOLEAN DEFAULT TRUE,
-    UNIQUE KEY uk_group_name (name)
+    UNIQUE KEY uk_circle_name (name)
 ) ENGINE=InnoDB;
 
--- Table: group_members
-CREATE TABLE group_members (
+-- Table: circle_members
+CREATE TABLE circle_members (
     id INT AUTO_INCREMENT PRIMARY KEY,
     member_id INT NOT NULL,
-    group_id INT NOT NULL,
+    circle_id INT NOT NULL,
     is_leader BOOLEAN DEFAULT false,
     member_status BOOLEAN DEFAULT true,
     inclusion_date TIMESTAMP NULL,
     active BOOLEAN DEFAULT TRUE,
     CONSTRAINT fk_member_id FOREIGN KEY (member_id) REFERENCES members(id),
-    CONSTRAINT fk_group_id FOREIGN KEY (group_id) REFERENCES groups(id),
-    UNIQUE KEY uk_member_group (member_id, group_id)
+    CONSTRAINT fk_circle_id FOREIGN KEY (circle_id) REFERENCES circles(id),
+    UNIQUE KEY uk_member_circle (member_id, circle_id)
 ) ENGINE=InnoDB;
 
 -- Table: contest_teams

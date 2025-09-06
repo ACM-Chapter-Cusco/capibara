@@ -21,13 +21,13 @@ SOURCE $HOME/capibara/db/data/questions.sql;
 
 -- Tablas con dependencias simples
 SOURCE $HOME/capibara/db/data/contests.sql;
-SOURCE $HOME/capibara/db/data/groups.sql;
+SOURCE $HOME/capibara/db/data/circles.sql;
 SOURCE $HOME/capibara/db/data/contestants.sql;
 SOURCE $HOME/capibara/db/data/members.sql;
 
 -- Tablas con múltiples dependencias
 SOURCE $HOME/capibara/db/data/teams.sql;
-SOURCE $HOME/capibara/db/data/group_members.sql;
+SOURCE $HOME/capibara/db/data/circle_members.sql;
 SOURCE $HOME/capibara/db/data/contest_teams.sql;
 SOURCE $HOME/capibara/db/data/contest_questions.sql;
 SOURCE $HOME/capibara/db/data/scientific_articles.sql;

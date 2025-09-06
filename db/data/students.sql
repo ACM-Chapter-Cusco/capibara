@@ -61,3 +61,5 @@ INSERT INTO students (id, student_code, first_names, paternal_surname, maternal_
 (58, '123459', 'Paisley', 'Wayra', 'Yakana', '123456@unsaac.edu.pe', '901234567'),
 (59, '567893', 'Ezra', 'Killa', 'Amaru', '567890@unsaac.edu.pe', '912345678'),
 (60, '901237', 'Naomi', 'Inti', 'Chakana', '901234@unsaac.edu.pe', '923456789');
+
+ALTER TABLE students AUTO_INCREMENT = 61;
