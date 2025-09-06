@@ -4,13 +4,15 @@ import (
     "database/sql"
     "encoding/json"
     "fmt"
-    "log"
     "net/http"
     "os"
 
     _ "github.com/go-sql-driver/mysql"
     "github.com/ACM-Chapter-Cusco/capibara/src/model"
+    "github.com/ACM-Chapter-Cusco/capibara/src/tracer"
 )
+
+var log = tracer.Logger();
 
 func getDBConnection() (*sql.DB, error) {
     dbUser := os.Getenv("DB_USER")
@@ -37,7 +39,7 @@ func getDBConnection() (*sql.DB, error) {
         return nil, fmt.Errorf("cannot connect to database: %v", err)
     }
 
-    log.Println("Connected to Cloud SQL successfully!")
+    log.Infof("Connected to Cloud SQL successfully!")
     return db, nil
 }
 
@@ -70,7 +72,7 @@ func getAllMembers(db *sql.DB) ([]model.Member, error) {
                            &studentData.PaternalSurname, &studentData.MaternalSurname,
                            &studentData.Email, &studentData.PhoneNumber, &studentData.Active,
                            &roleData.ID, &roleData.Name, &roleData.Active); err != nil {
-            log.Println("Scan error:", err)
+            log.Infof("Scan error:", err)
             continue
         }
 
@@ -87,7 +89,7 @@ func membersHandler(db *sql.DB) http.HandlerFunc {
         members, err := getAllMembers(db)
         if err != nil {
             http.Error(w, "Failed to query database", http.StatusInternalServerError)
-            log.Println("Query error:", err)
+            log.Infof("Query error:", err)
             return
         }
 
@@ -105,6 +107,6 @@ func main() {
 
     http.HandleFunc("/members", membersHandler(db))
 
-    log.Println("Starting server on :8080")
+    log.Infof("Starting server on :8080")
     log.Fatal(http.ListenAndServe(":8080", nil))
 }
