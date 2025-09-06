@@ -36,6 +36,7 @@ sudo systemctl enable mysql
 Finally, set up the required environment variables for Go development and database connection:
 
 ```bash
+cat >> ~/.bashrc << 'EOF'
 export PATH=$PATH:$HOME/go/bin:
 export PATH=$PATH:/usr/local/go/bin
 export GOPATH=$HOME/go
@@ -45,6 +46,9 @@ export DB_CONNECTION=localhost
 export DB_NAME=capsule
 export DB_USER=capsule
 export DB_PASSWORD=capsule
+EOF
+
+source ~/.bashrc
 ```
 
 ## Installation
@@ -62,10 +66,10 @@ git clone https://github.com/ACM-Chapter-Cusco/capibara.git
 
 ### Database Setup
 
-After cloning the repository, set up the MySQL database by importing the provided SQL schema:
+After cloning the repository, set up the MySQL database by running the database setup script:
 
 ```bash
-mysql -u root -p < $HOME/capibara/database/capsule.sql
+$HOME/capibara/database/capsule.sh
 ```
 
 ### Running the Server

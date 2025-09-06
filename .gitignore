@@ -1,3 +1,5 @@
 cmd/server/server
 
 go.sum
+
+database/capsule.sql
