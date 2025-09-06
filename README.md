@@ -88,5 +88,5 @@ go run $HOME/capibara/cmd/server/main.go
 Verify the server is running correctly by making a test API call:
 
 ```bash
-curl -X GET http://localhost:8080/api | jq .
+curl -X GET http://localhost:8080/members | jq .
 ```

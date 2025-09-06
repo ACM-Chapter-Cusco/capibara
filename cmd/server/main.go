@@ -9,17 +9,8 @@ import (
     "os"
 
     _ "github.com/go-sql-driver/mysql"
+    "github.com/ACM-Chapter-Cusco/capibara/src/model"
 )
-
-type Person struct {
-    ID        int    `json:"id"`
-    Name      string `json:"name"`
-    Age       int    `json:"age"`
-    Email     string `json:"email"`
-    City      string `json:"city"`
-    IsActive  bool   `json:"is_active"`
-    CreatedAt string `json:"created_at"`
-}
 
 func getDBConnection() (*sql.DB, error) {
     dbUser := os.Getenv("DB_USER")
@@ -50,29 +41,50 @@ func getDBConnection() (*sql.DB, error) {
     return db, nil
 }
 
-func getAllPersons(db *sql.DB) ([]Person, error) {
-    rows, err := db.Query("SELECT id, name, age, email, city, is_active, created_at FROM person")
+func getAllMembers(db *sql.DB) ([]model.Member, error) {
+    query := `SELECT m.id, m.username, m.github_username, m.password, m.student_id, m.role_id, m.active,
+              COALESCE(s.id, 0), COALESCE(s.student_code, ''), COALESCE(s.first_names, ''),
+              COALESCE(s.paternal_surname, ''), COALESCE(s.maternal_surname, ''),
+              COALESCE(s.email, ''), COALESCE(s.phone_number, ''), COALESCE(s.active, false),
+              COALESCE(r.id, 0), COALESCE(r.name, ''), COALESCE(r.active, false)
+              FROM members m
+              LEFT JOIN students s ON m.student_id = s.id
+              LEFT JOIN roles r ON m.role_id = r.id
+              WHERE m.active = TRUE`
+
+    rows, err := db.Query(query)
     if err != nil {
         return nil, err
     }
     defer rows.Close()
 
-    var people []Person
+    var members []model.Member
     for rows.Next() {
-        var p Person
-        if err := rows.Scan(&p.ID, &p.Name, &p.Age, &p.Email, &p.City, &p.IsActive, &p.CreatedAt); err != nil {
+        var member model.Member
+        var studentData model.Student
+        var roleData model.Role
+
+        if err := rows.Scan(&member.ID, &member.Username, &member.GithubUsername, &member.Password,
+                           &member.StudentID, &member.RoleID, &member.Active,
+                           &studentData.ID, &studentData.StudentCode, &studentData.FirstNames,
+                           &studentData.PaternalSurname, &studentData.MaternalSurname,
+                           &studentData.Email, &studentData.PhoneNumber, &studentData.Active,
+                           &roleData.ID, &roleData.Name, &roleData.Active); err != nil {
             log.Println("Scan error:", err)
             continue
         }
-        people = append(people, p)
+
+        member.Student = &studentData
+        member.Role = &roleData
+        members = append(members, member)
     }
 
-    return people, nil
+    return members, nil
 }
 
-func usersHandler(db *sql.DB) http.HandlerFunc {
+func membersHandler(db *sql.DB) http.HandlerFunc {
     return func(w http.ResponseWriter, r *http.Request) {
-        people, err := getAllPersons(db)
+        members, err := getAllMembers(db)
         if err != nil {
             http.Error(w, "Failed to query database", http.StatusInternalServerError)
             log.Println("Query error:", err)
@@ -80,7 +92,7 @@ func usersHandler(db *sql.DB) http.HandlerFunc {
         }
 
         w.Header().Set("Content-Type", "application/json")
-        json.NewEncoder(w).Encode(people)
+        json.NewEncoder(w).Encode(members)
     }
 }
 
@@ -91,7 +103,7 @@ func main() {
     }
     defer db.Close()
 
-    http.HandleFunc("/users", usersHandler(db))
+    http.HandleFunc("/members", membersHandler(db))
 
     log.Println("Starting server on :8080")
     log.Fatal(http.ListenAndServe(":8080", nil))
