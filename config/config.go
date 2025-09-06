@@ -36,7 +36,7 @@ func NewConfiguration() *Config {
 		Mode: os.Getenv("MODE"),
 		Server: Server{
 			Host: os.Getenv("SERVER_HOST"),
-			Port: os.Getenv("SERVER_PORT"),
+			Port: "8080",
 		},
 		Database: Database{
 			Driver:   "mysql",

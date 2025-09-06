@@ -96,7 +96,7 @@ func main() {
 
     http.HandleFunc("/members", membersHandler(db))
 
-    serverAddr := fmt.Sprintf("%s:%s", cfg.Server.Host, cfg.Server.Port)
-    log.Infof("Starting server on %s", serverAddr)
-    log.Fatal(http.ListenAndServe(serverAddr, nil))
+    serverHost := fmt.Sprintf(":%s", cfg.Server.Port)
+    log.Infof("Starting server on %s", serverHost)
+    log.Fatal(http.ListenAndServe(serverHost, nil))
 }

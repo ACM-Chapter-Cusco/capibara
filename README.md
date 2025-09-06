@@ -43,8 +43,6 @@ export GOPATH=$HOME/go
 export GOPROXY=direct
 
 export MODE=dev
-export SERVER_HOST=localhost
-export SERVER_PORT=8080
 
 export DB_HOST=localhost
 export DB_PORT=3306
