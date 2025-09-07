@@ -80,7 +80,7 @@ Finally, download dependencies and start the Capibara server:
 ```bash
 go mod download
 go mod tidy
-go run $HOME/capibara/cmd/server/main.go
+go run $HOME/capibara/cmd/main/main.go
 
 ```
 

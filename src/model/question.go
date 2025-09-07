@@ -1,7 +1,7 @@
 package model
 
 type Question struct {
-	ID          int    `json:"id" db:"id"`
+	Id          int    `json:"id" db:"id"`
 	Information string `json:"information" db:"information"`
 	Link        string `json:"link" db:"link"`
 	JsonFile    string `json:"json_file" db:"json_file"`

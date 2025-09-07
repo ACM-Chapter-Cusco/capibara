@@ -49,7 +49,7 @@ func NewConfiguration() *Config {
 	}
 }
 
-func (c *Config) GetStringDbConnection() string {
+func (c *Config) GetStringDBConnection() string {
 	if c.Mode == ModeProd {
 		return fmt.Sprintf("%s:%s@unix(/cloudsql/%s)/%s",
 			c.Database.Username,
