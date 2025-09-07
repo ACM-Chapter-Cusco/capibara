@@ -37,10 +37,8 @@ Finally, set up the required environment variables for Go development and databa
 
 ```bash
 cat >> ~/.bashrc << 'EOF'
-export PATH=$PATH:$HOME/go/bin:
-export PATH=$PATH:/usr/local/go/bin
-export GOPATH=$HOME/go
 export GOPROXY=direct
+export PATH=$PATH:/usr/local/go/bin
 
 export MODE=dev
 
@@ -72,7 +70,7 @@ git clone https://github.com/ACM-Chapter-Cusco/capibara.git
 After cloning the repository, set up the MySQL database by running the database setup script:
 
 ```bash
-$HOME/capibara/database/capsule.sh
+$HOME/capibara/script/capsule.sh
 ```
 
 ### Running the Server

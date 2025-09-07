@@ -7,7 +7,7 @@ import (
     "net/http"
 
     _ "github.com/go-sql-driver/mysql"
-    "github.com/ACM-Chapter-Cusco/capibara/config"
+    "github.com/ACM-Chapter-Cusco/capibara/src/config"
     "github.com/ACM-Chapter-Cusco/capibara/src/model"
     "github.com/ACM-Chapter-Cusco/capibara/src/tracer"
 )

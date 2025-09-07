@@ -1,5 +1,5 @@
 -- user database
-DROP USER 'capsule'@'localhost';
+DROP USER IF EXISTS 'capsule'@'localhost';
 CREATE USER 'capsule'@'localhost' IDENTIFIED BY 'capsule';
 GRANT ALL PRIVILEGES ON capsule.* TO 'capsule'@'localhost';
 FLUSH PRIVILEGES;

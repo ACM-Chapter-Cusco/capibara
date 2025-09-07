@@ -35,7 +35,6 @@ func NewConfiguration() *Config {
 	return &Config{
 		Mode: os.Getenv("MODE"),
 		Server: Server{
-			Host: os.Getenv("SERVER_HOST"),
 			Port: "8080",
 		},
 		Database: Database{
